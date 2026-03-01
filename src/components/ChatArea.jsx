@@ -58,11 +58,17 @@ export default function ChatArea({ isOpen, toggleSidebar }) {
         }
     };
 
+    const formatTime = () => {
+        const now = new Date();
+        return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+    };
+
     const handleSend = async (textToSubmit = input) => {
         if (!textToSubmit.trim() || isTyping) return;
 
         const userText = textToSubmit.trim();
-        setMessages((prev) => [...prev, { sender: 'user', text: userText }]);
+        const timestamp = formatTime();
+        setMessages((prev) => [...prev, { sender: 'user', text: userText, timestamp }]);
         setInput('');
         if (textareaRef.current) {
             textareaRef.current.style.height = 'auto';
@@ -80,9 +86,9 @@ export default function ChatArea({ isOpen, toggleSidebar }) {
             const data = await res.json();
             const reply = data?.data?.reply || data?.output || "Maaf, aku sedang tidak konek ke server.";
 
-            setMessages((prev) => [...prev, { sender: 'ai', text: reply }]);
+            setMessages((prev) => [...prev, { sender: 'ai', text: reply, timestamp: formatTime() }]);
         } catch (error) {
-            setMessages((prev) => [...prev, { sender: 'ai', text: "⚠️ Gagal terhubung ke server." }]);
+            setMessages((prev) => [...prev, { sender: 'ai', text: "⚠️ Gagal terhubung ke server.", timestamp: formatTime() }]);
         } finally {
             setIsTyping(false);
         }
@@ -155,7 +161,7 @@ export default function ChatArea({ isOpen, toggleSidebar }) {
                 <>
                     <div className="chat-container">
                         {messages.map((msg, idx) => (
-                            <Message key={idx} text={msg.text} sender={msg.sender} />
+                            <Message key={idx} text={msg.text} sender={msg.sender} timestamp={msg.timestamp} />
                         ))}
 
                         {isTyping && (

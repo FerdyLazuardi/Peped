@@ -37,12 +37,12 @@
 html {
   height: 100%;
   margin: 0;
-  background-color: #D8E5F8;
-  /* Neutral safety color from middle of gradient */
+  background: var(--bg-gradient) fixed no-repeat;
+  background-size: cover;
 }
 
 body {
-  min-height: 100dvh;
+  height: 100dvh;
   margin: 0;
   overflow: hidden;
   font-family: var(--font-family);
@@ -51,9 +51,7 @@ body {
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: var(--bg-gradient) no-repeat;
-  background-size: cover;
-  background-position: center bottom;
+  background: transparent;
 }
 
 #root {
@@ -962,8 +960,8 @@ textarea::placeholder {
   }
 
   .input-area-wrapper {
-    padding: 6px 16px 0px 16px;
-    margin-bottom: 12px;
+    padding: 6px 16px 10px 16px;
+    margin-bottom: 0px;
     margin-top: auto;
   }
 

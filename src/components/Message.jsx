@@ -12,7 +12,7 @@ marked.use({
     }
 });
 
-export default function Message({ text, sender, timestamp }) {
+export default function Message({ text, sender }) {
     const isUser = sender === 'user';
 
     const createMarkup = () => {
@@ -42,15 +42,12 @@ export default function Message({ text, sender, timestamp }) {
                 </div>
             )}
 
-            <div className="message-bubble-container">
-                <div className="message-bubble">
-                    {isUser ? (
-                        <div style={{ whiteSpace: 'pre-wrap' }}>{text}</div>
-                    ) : (
-                        <div dangerouslySetInnerHTML={createMarkup()} />
-                    )}
-                </div>
-                {timestamp && <span className="message-time">{timestamp}</span>}
+            <div className="message-bubble">
+                {isUser ? (
+                    <div style={{ whiteSpace: 'pre-wrap' }}>{text}</div>
+                ) : (
+                    <div dangerouslySetInnerHTML={createMarkup()} />
+                )}
             </div>
         </div>
     );

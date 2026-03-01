@@ -160,7 +160,7 @@ export default function ChatArea({ isOpen, toggleSidebar }) {
                         <div ref={chatEndRef} />
                     </div>
 
-                    <div className="input-area-wrapper">
+                    <div className="input-area-wrapper active-chat-input">
                         {inputBox}
                     </div>
                 </>

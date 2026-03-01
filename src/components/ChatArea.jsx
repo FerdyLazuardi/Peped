@@ -21,6 +21,7 @@ export default function ChatArea({ isOpen, toggleSidebar }) {
 
     const chatEndRef = useRef(null);
     const textareaRef = useRef(null);
+    const inputWrapperRef = useRef(null);
 
     const scrollToBottom = () => {
         chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -29,6 +30,22 @@ export default function ChatArea({ isOpen, toggleSidebar }) {
     useEffect(() => {
         scrollToBottom();
     }, [messages, isTyping]);
+
+    // Keep input visible above keyboard on mobile (works with resizes-visual viewport)
+    useEffect(() => {
+        const viewport = window.visualViewport;
+        if (!viewport) return;
+
+        const handleResize = () => {
+            // When keyboard appears, scroll so the input wrapper is above keyboard
+            if (inputWrapperRef.current) {
+                inputWrapperRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }
+        };
+
+        viewport.addEventListener('resize', handleResize);
+        return () => viewport.removeEventListener('resize', handleResize);
+    }, []);
 
     const handleInput = (e) => {
         setInput(e.target.value);
@@ -129,7 +146,7 @@ export default function ChatArea({ isOpen, toggleSidebar }) {
                         Haii A-Team! <br className="mobile-break" />Peped is here to save your day! 💅✨<br />What’s on your mind today?
                     </h1>
 
-                    <div className="input-area-wrapper welcome-input" style={{ paddingTop: '20px', zIndex: 10 }}>
+                    <div ref={inputWrapperRef} className="input-area-wrapper welcome-input" style={{ paddingTop: '20px', zIndex: 10 }}>
                         {inputBox}
                         <div className="chips-wrapper">
                             {suggestionChips}
@@ -160,7 +177,7 @@ export default function ChatArea({ isOpen, toggleSidebar }) {
                         <div ref={chatEndRef} />
                     </div>
 
-                    <div className="input-area-wrapper">
+                    <div ref={inputWrapperRef} className="input-area-wrapper">
                         {inputBox}
                     </div>
                 </>

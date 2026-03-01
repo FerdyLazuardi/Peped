@@ -78,7 +78,7 @@ export default function ChatArea({ isOpen, toggleSidebar }) {
             <textarea
                 ref={textareaRef}
                 rows="1"
-                placeholder="Chat here.."
+                placeholder="Message Peped.."
                 value={input}
                 onChange={handleInput}
                 onKeyDown={handleKeyDown}
@@ -160,7 +160,7 @@ export default function ChatArea({ isOpen, toggleSidebar }) {
                         <div ref={chatEndRef} />
                     </div>
 
-                    <div className="input-area-wrapper active-chat-input">
+                    <div className="input-area-wrapper">
                         {inputBox}
                     </div>
                 </>

@@ -357,7 +357,20 @@ body {
   position: relative;
   transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow-y: auto;
+  scroll-behavior: smooth;
   /* Scrollbar now belongs to the main container */
+}
+
+/* Hide overflow on desktop welcome screen */
+.main-content.is-welcome {
+  overflow-y: hidden;
+}
+
+/* Re-enable overflow for mobile even in welcome screen to handle keyboard/small heights */
+@media screen and (max-width: 768px) {
+  .main-content.is-welcome {
+    overflow-y: auto;
+  }
 }
 
 .top-bar {
@@ -408,14 +421,37 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  /* Better for handling overflow */
+  padding-top: 5vh;
+  /* Start with some room */
+  padding-bottom: 2rem;
   flex: 1;
   width: 100%;
   gap: 32px;
-  margin-top: -5vh;
-  /* visually center it a bit higher without breaking flow */
-  padding-bottom: 2rem;
-  overflow-y: auto;
+  /* overflow-y is already on main-content */
+}
+
+/* On very small screen (like mobile with keyboard), shrink mascot */
+@media screen and (max-height: 500px) {
+  .mascot-area {
+    width: 200px;
+    height: 200px;
+  }
+
+  .mascot-img {
+    width: 160px;
+    height: 160px;
+  }
+
+  .welcome-container {
+    gap: 16px;
+    padding-top: 10px;
+  }
+
+  .welcome-title {
+    font-size: 18px;
+  }
 }
 
 .mascot-area {
@@ -665,6 +701,11 @@ body {
   /* Added auto top margin to push to bottom */
   width: 100%;
   background: transparent;
+}
+
+.welcome-input {
+  margin-top: 24px !important;
+  margin-bottom: 24px !important;
 }
 
 .chips-wrapper {

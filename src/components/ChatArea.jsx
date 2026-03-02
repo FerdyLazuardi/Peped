@@ -37,13 +37,21 @@ export default function ChatArea({ isOpen, toggleSidebar }) {
         if (!viewport) return;
 
         const onResize = () => {
-            document.documentElement.style.setProperty('--app-height', `${viewport.height}px`);
+            const height = viewport.height;
+            document.documentElement.style.setProperty('--app-height', `${height}px`);
+
+            // If height reduces significantly (likely keyboard), scroll input into view on welcome screen
+            if (isWelcomeScreen && window.innerHeight - height > 150) {
+                setTimeout(() => {
+                    inputWrapperRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                }, 100);
+            }
         };
 
         onResize(); // set initial value
         viewport.addEventListener('resize', onResize);
         return () => viewport.removeEventListener('resize', onResize);
-    }, []);
+    }, [isWelcomeScreen]);
 
     const handleInput = (e) => {
         setInput(e.target.value);
@@ -121,7 +129,7 @@ export default function ChatArea({ isOpen, toggleSidebar }) {
     );
 
     return (
-        <div className="main-content">
+        <div className={`main-content ${isWelcomeScreen ? 'is-welcome' : ''}`}>
             <div className="top-bar">
                 <button
                     className="hamburger-btn"
